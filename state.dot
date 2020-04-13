@@ -1,0 +1,40 @@
+// view with xdot state.dot
+// convert with dot -Tpng -Nfontname=Roboto -Efontname=Roboto state.dot -o state.png
+
+// these are the internal states.
+// from the user point of view it seems that there are shortcuts because some functions call others implicitly,
+// e.g., add_layer in state IMAGE silently calls write_header, ...
+
+digraph {
+    start [label= "", shape=none, height=.0, width=.0]
+    IMAGE [label="XCF_STATE_IMAGE"]
+    MAIN [label="XCF_STATE_MAIN"]
+    LAYER [label="XCF_STATE_LAYER"]
+    LAYER_INTERMEDIATE [label="XCF_STATE_LAYER_INTERMEDIATE"]
+    CHANNEL [label="XCF_STATE_CHANNEL"]
+    CHANNEL_INTERMEDIATE [label="XCF_STATE_CHANNEL_INTERMEDIATE"]
+    DONE [shape="doublecircle" label="XCF_\nSTATE_\nDONE"]
+    error [label="XCF_STATE_ERROR\nreachable from any state"]
+
+    start -> IMAGE [label="open"]
+    IMAGE -> IMAGE [label="set"]
+    IMAGE -> MAIN [label="write_header"]
+
+    MAIN -> DONE [label="close"]
+    MAIN -> LAYER [label="add_layer"]
+    MAIN -> CHANNEL [label="add_channel"]
+
+    LAYER -> LAYER [label="set"]
+    LAYER -> LAYER_INTERMEDIATE [label="write_header"]
+    LAYER_INTERMEDIATE -> MAIN [label="add_data"]
+
+    CHANNEL -> CHANNEL [label="set"]
+    CHANNEL -> CHANNEL_INTERMEDIATE [label="write_header"]
+    CHANNEL_INTERMEDIATE -> MAIN [label="add_data"]
+
+    IMAGE -> LAYER [style="dotted" label="add_layer"]
+    IMAGE -> CHANNEL [style="dotted" label="add_channel"]
+    IMAGE -> DONE [style="dotted" label="close"]
+    LAYER -> MAIN [style="dotted" label="add_data"]
+    CHANNEL -> MAIN [style="dotted" label="add_data"]
+}

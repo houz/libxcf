@@ -1,0 +1,195 @@
+#pragma once
+
+#include <inttypes.h>
+
+// the authoritative source for these values is the GIMP source code!
+// any discrepancy is a bug in this file
+
+typedef enum xcf_base_type_t
+{
+  XCF_BASE_TYPE_RGB = 0,
+  XCF_BASE_TYPE_GRAYSCALE = 1,
+  XCF_BASE_TYPE_INDEXED = 2
+} xcf_base_type_t;
+
+typedef enum xcf_type_t
+{
+  XCF_TYPE_RGB = 0,
+  XCF_TYPE_RGB_ALPHA = 1,
+  XCF_TYPE_GRAYSCALE = 2,
+  XCF_TYPE_GRAYSCALE_ALPHA = 3,
+  XCF_TYPE_INDEXED = 4,
+  XCF_TYPE_INDEXED_ALPHA = 5
+} xcf_type_t;
+
+typedef enum xcf_precision_t
+{
+  XCF_PRECISION_I_8_L  = 100,
+  XCF_PRECISION_I_8_G  = 150,
+  XCF_PRECISION_I_16_L = 200,
+  XCF_PRECISION_I_16_G = 250,
+  XCF_PRECISION_I_32_L = 300,
+  XCF_PRECISION_I_32_G = 350,
+  XCF_PRECISION_F_16_L = 500,
+  XCF_PRECISION_F_16_G = 550,
+  XCF_PRECISION_F_32_L = 600,
+  XCF_PRECISION_F_32_G = 650,
+  XCF_PRECISION_F_64_L = 700,
+  XCF_PRECISION_F_64_G = 750,
+} xcf_precision_t;
+
+typedef enum xcf_props_t
+{
+  XCF_PROP_END = 0,
+  XCF_PROP_COLORMAP = 1,
+  XCF_PROP_OPACITY = 6,
+  XCF_PROP_MODE = 7,
+  XCF_PROP_VISIBLE = 8,
+  XCF_PROP_OFFSETS = 15,
+  XCF_PROP_COLOR = 16,
+  XCF_PROP_COMPRESSION = 17,
+  XCF_PROP_PARASITES = 21,
+  XCF_PROP_FLOAT_OPACITY = 33,
+  XCF_PROP_COMPOSITE_MODE = 35,
+  XCF_PROP_COMPOSITE_SPACE = 36,
+  XCF_PROP_BLEND_SPACE = 37,
+  XCF_PROP_FLOAT_COLOR = 38,
+} xcf_props_t;
+
+typedef enum xcf_prop_compression_t
+{
+  XCF_PROP_COMPRESSION_NONE = 0,
+  XCF_PROP_COMPRESSION_RLE = 1,
+  XCF_PROP_COMPRESSION_ZLIB = 2
+} xcf_prop_compression_t;
+
+typedef enum xcf_prop_composite_mode_t
+{
+  XCF_PROP_COMPOSITE_MODE_UNION = 1,
+  XCF_PROP_COMPOSITE_MODE_CLIP_TO_BACKDROP = 2,
+  XCF_PROP_COMPOSITE_MODE_CLIP_TO_LAYER = 3,
+  XCF_PROP_COMPOSITE_MODE_INTERSECTION = 4
+} xcf_prop_composite_mode_t;
+
+typedef enum xcf_prop_composite_blend_space_t
+{
+  XCF_PROP_COMPOSITE_BLEND_SPACE_RGB_L = 1,
+  XCF_PROP_COMPOSITE_BLEND_SPACE_RGB_P = 2,
+  XCF_PROP_COMPOSITE_BLEND_SPACE_LAB = 3
+} xcf_prop_composite_blend_space_t;
+
+typedef enum xcf_prop_mode_t
+{
+  XCF_PROP_MODE_LEGACY_NORMAL = 0,
+  XCF_PROP_MODE_LEGACY_DISSOLVE = 1,
+  XCF_PROP_MODE_LEGACY_BEHIND = 2,
+  XCF_PROP_MODE_LEGACY_MULTIPLY = 3,
+  XCF_PROP_MODE_LEGACY_SCREEN = 4,
+  XCF_PROP_MODE_LEGACY_OVERLAY = 5,
+  XCF_PROP_MODE_LEGACY_DIFFERENCE = 6,
+  XCF_PROP_MODE_LEGACY_ADDITION = 7,
+  XCF_PROP_MODE_LEGACY_SUBTRACT = 8,
+  XCF_PROP_MODE_LEGACY_DARKEN = 9,
+  XCF_PROP_MODE_LEGACY_LIGHTEN = 10,
+  XCF_PROP_MODE_LEGACY_HUE_HSV = 11,
+  XCF_PROP_MODE_LEGACY_SATURATION_HSV = 12,
+  XCF_PROP_MODE_LEGACY_COLOR_HSL = 13,
+  XCF_PROP_MODE_LEGACY_VALUE_HSV = 14,
+  XCF_PROP_MODE_LEGACY_DIVIDE = 15,
+  XCF_PROP_MODE_LEGACY_DODGE = 16,
+  XCF_PROP_MODE_LEGACY_BURN = 17,
+  XCF_PROP_MODE_LEGACY_HARD_LIGHT = 18,
+  XCF_PROP_MODE_LEGACY_SOFT_LIGHT = 19,
+  XCF_PROP_MODE_LEGACY_GRAIN_EXTRACT = 20,
+  XCF_PROP_MODE_LEGACY_GRAIN_MERGE = 21,
+  XCF_PROP_MODE_LEGACY_COLOR_ERASE = 22,
+  XCF_PROP_MODE_OVERLAY = 23,
+  XCF_PROP_MODE_HUE_LCH = 24,
+  XCF_PROP_MODE_CHROMA_LCH = 25,
+  XCF_PROP_MODE_COLOR_LCH = 26,
+  XCF_PROP_MODE_LIGHTNESS_LCH = 27,
+  XCF_PROP_MODE_NORMAL = 28,
+  XCF_PROP_MODE_BEHIND = 29,
+  XCF_PROP_MODE_MULTIPLY = 30,
+  XCF_PROP_MODE_SCREEN = 31,
+  XCF_PROP_MODE_DIFFERENCE = 32,
+  XCF_PROP_MODE_ADDITION = 33,
+  XCF_PROP_MODE_SUBTRACT = 34,
+  XCF_PROP_MODE_DARKEN = 35,
+  XCF_PROP_MODE_LIGHTEN = 36,
+  XCF_PROP_MODE_HUE_HSV = 37,
+  XCF_PROP_MODE_SATURATION_HSV = 38,
+  XCF_PROP_MODE_COLOR_HSL = 39,
+  XCF_PROP_MODE_VALUE_HSV = 40,
+  XCF_PROP_MODE_DIVIDE = 41,
+  XCF_PROP_MODE_DODGE = 42,
+  XCF_PROP_MODE_BURN = 43,
+  XCF_PROP_MODE_HARD_LIGHT = 44,
+  XCF_PROP_MODE_SOFT_LIGHT = 45,
+  XCF_PROP_MODE_GRAIN_EXTRACT = 46,
+  XCF_PROP_MODE_GRAIN_MERGE = 47,
+  XCF_PROP_MODE_VIVID_LIGHT = 48,
+  XCF_PROP_MODE_PIN_LIGHT = 49,
+  XCF_PROP_MODE_LINEAR_LIGHT = 50,
+  XCF_PROP_MODE_HARD_MIX = 51,
+  XCF_PROP_MODE_EXCLUSION = 52,
+  XCF_PROP_MODE_LINEAR_BURN = 53,
+  XCF_PROP_MODE_L_DARKEN = 54,
+  XCF_PROP_MODE_L_LIGHTEN = 55,
+  XCF_PROP_MODE_LUMINANCE = 56,
+  XCF_PROP_MODE_COLOR_ERASE = 57,
+  XCF_PROP_MODE_ERASE = 58,
+  XCF_PROP_MODE_MERGE = 59,
+  XCF_PROP_MODE_SPLIT = 60,
+  XCF_PROP_MODE_PASS_THROUGH = 61
+} xcf_prop_mode_t;
+
+typedef enum xcf_field_t
+{
+  // general
+  XCF_WIDTH,
+  XCF_HEIGHT,
+  XCF_PROP,
+  XCF_NAME,
+
+  // image specific
+  XCF_VERSION,
+  XCF_BASE_TYPE,
+  XCF_PRECISION,
+  XCF_N_LAYERS,
+  XCF_N_CHANNELS,
+  XCF_OMIT_BASE_ALPHA,
+
+  // layer specific
+//   XCF_TYPE
+} xcf_field_t;
+
+// internal state machine. see state.dot
+typedef enum xcf_state_t
+{
+  XCF_STATE_IMAGE,
+  XCF_STATE_MAIN,
+  XCF_STATE_LAYER,
+  XCF_STATE_LAYER_INTERMEDIATE,
+  XCF_STATE_CHANNEL,
+  XCF_STATE_CHANNEL_INTERMEDIATE,
+  XCF_STATE_DONE,
+  XCF_STATE_ERROR
+} xcf_state_t;
+
+typedef struct xcf_t XCF;
+
+XCF *xcf_open(const char *filename);
+int xcf_close(XCF *xcf);
+
+// set fields or properties. depending on the current state it's setting image, layer or channel data
+int xcf_set(XCF *xcf, xcf_field_t field, ...);
+
+int xcf_add_layer(XCF *xcf);
+int xcf_add_channel(XCF *xcf);
+
+// add pixel data to the current layer or channel
+int xcf_add_data(XCF *xcf, const void *data, const int data_channels);
+
+#define XCF_INTERNAL_INCLUDES
+#include "xcf_names.h"
