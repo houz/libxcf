@@ -47,6 +47,10 @@ find_package(ZLIB REQUIRED)
 
 add_library(xcf STATIC xcf.c xcf.h xcf_names.c xcf_names.h)
 
+set_property(TARGET xcf PROPERTY C_STANDARD 99)
+
+target_compile_definitions(xcf PRIVATE _DEFAULT_SOURCE) # needed for htobe*()
+
 option(FORCE_COLORED_OUTPUT "Show colored compiler output." ON)
 if(${FORCE_COLORED_OUTPUT})
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

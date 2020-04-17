@@ -636,9 +636,9 @@ static int xcf_add_hierarchy(XCF *xcf, const void *data, const uint32_t width, c
     for(uint32_t x = 0; x < width; x += TILE_SIZE, tile_number++)
     {
       // put the pointer into the tile list
-      const uint64_t current_pos = ftell(xcf->fd);
+      const uint64_t _current_pos = ftell(xcf->fd);
       CHECK_IO(xcf, fseek(xcf->fd, tiles_list + xcf_pointer_size(xcf) * tile_number, SEEK_SET), 0);
-      CHECK_IO(xcf, xcf_write_pointer(xcf, current_pos), 1);
+      CHECK_IO(xcf, xcf_write_pointer(xcf, _current_pos), 1);
       CHECK_IO(xcf, fseek(xcf->fd, 0, SEEK_END), 0);
 
       const uint32_t x_end = MIN(x + TILE_SIZE - 1, width - 1);
