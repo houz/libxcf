@@ -38,6 +38,12 @@ typedef enum xcf_precision_t
   XCF_PRECISION_F_64_G = 750,
 } xcf_precision_t;
 
+typedef enum xcf_parasite_flag_t
+{
+  XCF_PARASITE_PERSISTENT = 1,
+  XCF_PARASITE_UNDOABLE = 2,
+} xcf_parasite_flag_t;
+
 typedef enum xcf_props_t
 {
   XCF_PROP_END = 0,

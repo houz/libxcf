@@ -104,7 +104,7 @@ The XCF file is always in some specific internal state, depending on which you c
   When setting a parasite property, the extra arguments are:
   - `XCF_PROP_PARASITE` – indicate that it's a parasite
   - `char *name` – the name of the parasite
-  - `uint32_t flags` – parasite flags
+  - `uint32_t flags` – parasite flags, XCF_PARASITE_PERSISTENT and/or XCF_PARASITE_UNDOABLE
   - `uint32_t length` – the length of the payload in bytes
   - `uint8_t *payload` – pointer to `length` bytes of data
 
