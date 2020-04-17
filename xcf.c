@@ -778,6 +778,8 @@ XCF *xcf_open(const char *filename)
 
 int xcf_close(XCF *xcf)
 {
+  if(!xcf) return 1;
+
   if(xcf->state == XCF_STATE_ERROR)
   {
     PRINT_ERROR("error: the file is in error state. better add some error handling.");
