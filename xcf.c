@@ -1,6 +1,5 @@
 #include "xcf.h"
 
-#include <endian.h> // TODO: this is not portable, add wrapper where needed
 #include <inttypes.h>
 #include <math.h>
 #include <stdarg.h>
@@ -8,6 +7,39 @@
 #include <stdlib.h>
 #include <string.h>
 #include <zlib.h>
+
+#if defined(_WIN32)
+  #include <windows.h>
+  #if BYTE_ORDER == LITTLE_ENDIAN
+    #if defined(_MSC_VER)
+      #define htobe16(x) _byteswap_ushort(x)
+      #define htobe32(x) _byteswap_ulong(x)
+      #define htobe64(x) _byteswap_uint64(x)
+    #elif defined(__GNUC__) || defined(__clang__)
+      #define htobe16(x) __builtin_bswap16(x)
+      #define htobe32(x) __builtin_bswap32(x)
+      #define htobe64(x) __builtin_bswap64(x)
+    #endif
+  #else
+    #define htobe16(x) (x)
+    #define htobe32(x) (x)
+    #define htobe64(x) (x)
+  #endif
+#elif defined(__APPLE__)
+  #include <libkern/OSByteOrder.h>
+  #define htobe16(x) OSSwapHostToBigInt16(x)
+  #define htobe32(x) OSSwapHostToBigInt32(x)
+  #define htobe64(x) OSSwapHostToBigInt64(x)
+#elif defined(__OpenBSD__)
+  #include <sys/endian.h>
+#elif  defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__)
+  #include <sys/endian.h>
+//   #define htobe16(x) noideawhat(x)
+//   #define htobe32(x) noideawhat(x)
+//   #define htobe64(x) noideawhat(x)
+#else
+  #include <endian.h>
+#endif
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -719,7 +751,7 @@ static int xcf_add_hierarchy(XCF *xcf, const void *data, const uint32_t width, c
       if(xcf->image.p_compression == XCF_PROP_COMPRESSION_ZLIB)
       {
         // use zlib to compress the tile
-        size_t _dest_len = dest_len;
+        unsigned long _dest_len = dest_len;
         const int zlib_res = compress(tile_compressed, &_dest_len, tile, src_len);
         if(zlib_res != Z_OK)
         {
