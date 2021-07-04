@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef XCF_INTERNAL_INCLUDES
-#error only "xcf.h" should be included diretly
+#error only "xcf.h" should be included directly
 #endif
 
 #include "xcf.h"
