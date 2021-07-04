@@ -178,7 +178,7 @@ static uint32_t xcf_strlen(const char *value)
 }
 
 
-// functions for writing to a file, taking endianess into account
+// functions for writing to a file, taking endianness into account
 
 static int xcf_write_uint8(XCF *xcf, const uint8_t value) __attribute__ ((warn_unused_result));
 static int xcf_write_uint8(XCF *xcf, const uint8_t value)
@@ -475,7 +475,7 @@ static int xcf_write_layer_header(XCF *xcf)
   CHECK_IO(xcf, xcf_write_uint32(xcf, 8), 1);
   CHECK_IO(xcf, xcf_write_uint32(xcf, xcf->child.p_offset_x), 1);
   CHECK_IO(xcf, xcf_write_uint32(xcf, xcf->child.p_offset_y), 1);
-  // thses properties were added in 2.10.0 (i presume version 4?)
+  // these properties were added in 2.10.0 (i presume version 4?)
   // if the user set composite mode or space they should be >= 0 and affect min_version
   // if they are < 0 then only write them if version >= 4
   if(xcf->image.version >= 4
@@ -510,7 +510,7 @@ static int xcf_write_layer_header(XCF *xcf)
   CHECK_IO(xcf, xcf_write_uint32(xcf, 0), 1); // type
   CHECK_IO(xcf, xcf_write_uint32(xcf, 0), 1); // size
 
-  // the hierarchy struct comes rigth after the layer
+  // the hierarchy struct comes right after the layer
   const uint64_t current_pos = ftell(xcf->fd);
   CHECK_IO(xcf, xcf_write_pointer(xcf, current_pos + 2 * xcf_pointer_size(xcf)), 1);
   CHECK_IO(xcf, xcf_write_pointer(xcf, 0), 1); // pointer to the layer mask, which we don't support
@@ -569,7 +569,7 @@ static int xcf_write_channel_header(XCF *xcf)
   CHECK_IO(xcf, xcf_write_uint32(xcf, 0), 1); // type
   CHECK_IO(xcf, xcf_write_uint32(xcf, 0), 1); // size
 
-  // the hierarchy struct comes rigth after the layer
+  // the hierarchy struct comes right after the layer
   const uint64_t current_pos = ftell(xcf->fd);
   CHECK_IO(xcf, xcf_write_pointer(xcf, current_pos + xcf_pointer_size(xcf)), 1);
 
